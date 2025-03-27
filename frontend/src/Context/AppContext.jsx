@@ -1,4 +1,4 @@
-const { createContext } = require("react");
+import { createContext } from "react";
 
 
 export const AppContext = createContext();
@@ -14,5 +14,5 @@ export const AppContextProvider = (props) => {
             {props.children}
         </AppContext.Provider>
     )
-    
+
 }
