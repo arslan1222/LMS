@@ -10,6 +10,7 @@ export const AppContextProvider = (props) => {
 
     const [allCourses, setALlCourses] = useState([]);
     const [isEducator, setIsEducator] = useState(true);
+    const [enrolledCourses, setEnrolledCourses] = useState([]);
 
     const currency = "$";
     const navigate = useNavigate();
@@ -54,9 +55,18 @@ export const AppContextProvider = (props) => {
         return course.courseContent.reduce((total, chapter) => total + (Array.isArray(chapter.chapterContent) ? chapter.chapterContent.length : 0), 0);
     };
 
+    // Fetch user enrolled courses
+
+    const fetchUserEnrolledCourses = () => {
+        setEnrolledCourses(dummyCourses);
+    }
+
     useEffect(()=>{
         fetchAllCOurses();
+        fetchUserEnrolledCourses();
     }, []);
+
+
 
     const value = {
         currency,
@@ -65,7 +75,8 @@ export const AppContextProvider = (props) => {
         navigate,
         calculateRating,
         isEducator, setIsEducator,
-        calculateChapterTime, calculateLectures, calculateCourseDuration
+        calculateChapterTime, calculateLectures, calculateCourseDuration,
+        enrolledCourses, fetchUserEnrolledCourses,
     }
 
     return (
