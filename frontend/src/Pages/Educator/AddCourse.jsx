@@ -95,8 +95,6 @@ const AddCourse = () => {
       console.log("Form submitted!");
     };
     
-
-
     useEffect(()=>{
       // Initiate quill only once
       if(!quillRef.current && editorRef.current) {
