@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { AppContext } from '../../Context/AppContext';
 import Loading from '../../Components/Student/Loading';
 import { assets } from '../../assets/assets';
-import humanizeDuration from 'humanize-Duration'
+import humanizeDuration from 'humanize-duration'
 import Footer from '../../Components/Student/Footer';
 import youtube from 'react-youtube'
 import YouTube from 'react-youtube';
