@@ -26,14 +26,14 @@ const MyEnrollments = () => {
   return (
     <>
     <div className='md:px-36 px-5 pt-10 mb-20'>
-      <h1 className='text-2xl font-semibold'>My Enrollements</h1>
+      <h1 className='text-2xl font-semibold text-primary2'>My Enrollements</h1>
       <table className='md:table-auto table-fixed w-full overflow-hidden border mt-10'>
         <thead className='text-gray-900 border-b border-gray-500/20 text-sm text-left max-sm:hidden'>
           <tr >
-            <th className='px-4 py-3 font-semibold truncate'>Course</th>
-            <th className='px-4 py-3 font-semibold truncate'>Duration</th>
-            <th className='px-4 py-3 font-semibold truncate'>Completed</th>
-            <th className='px-4 py-3 font-semibold truncate'>Status</th>
+            <th className='px-4 py-3 font-semibold truncate text-primary2'>Course</th>
+            <th className='px-4 py-3 font-semibold truncate text-primary2'>Duration</th>
+            <th className='px-4 py-3 font-semibold truncate text-primary2'>Completed</th>
+            <th className='px-4 py-3 font-semibold truncate text-primary2'>Status</th>
           </tr>
         </thead>
         <tbody className='text-gray-700'>

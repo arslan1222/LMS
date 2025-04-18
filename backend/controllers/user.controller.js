@@ -20,7 +20,8 @@ export const getUserData = async (req, res) => {
     } catch (error) {
         res.json({success: false, message: error.message});
         
-    }
+    } 
+    
 }
 
 // Users enrolled courses with lecture links
@@ -40,10 +41,9 @@ export const userEnrolledCourses = async (req, res) => {
 }
 
 // Purchse course
-export const pushseCourse = async (req, res) => {
-
+// Purchase course
+export const purchaseCourse = async (req, res) => {
     try {
-        
         const { courseId } = req.body;
         const { origin } = req.headers;
 
@@ -52,37 +52,36 @@ export const pushseCourse = async (req, res) => {
         const userData = await User.findById(userId);
         const courseData = await Course.findById(courseId);
 
-        
-
-        if(!userData || !courseData) {
-            res.json({success: false, message: 'Data Not Found!'});
+        if (!userData || !courseData) {
+            return res.json({ success: false, message: 'Data Not Found!' });
         }
 
+        // Calculate the amount after discount
+        const discountedAmount = (courseData.coursePrice - (courseData.discount * courseData.coursePrice) / 100).toFixed(2);
         const purchaseData = {
             courseId: courseData._id,
             userId,
-            amount: (courseData.coursePrice - courseData.discount * courseData.coursePrice / 100).toFixed(2),
-        }
+            amount: discountedAmount,
+        };
 
-        const newPurchse = await Purchase.create(purchaseData);
+        const newPurchase = await Purchase.create(purchaseData);
 
         // Stripe Gateway initialized
         const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
 
         const currency = process.env.CURRENCY.toLowerCase();
 
-        // Creating line items for stripe
-
+        // Creating line items for Stripe
         const line_items = [{
             price_data: {
                 currency,
                 product_data: {
                     name: courseData.courseTitle,
                 },
-                unit_amount: Math.floor(newPurchse.amount) * 100
+                unit_amount: Math.floor(parseFloat(discountedAmount) * 100), // Ensure it's in cents
             },
-            quantity: 1
-        }]
+            quantity: 1,
+        }];
 
         const session = await stripeInstance.checkout.sessions.create({
             success_url: `${origin}/loading/my-enrollments`,
@@ -90,17 +89,16 @@ export const pushseCourse = async (req, res) => {
             line_items: line_items,
             mode: 'payment',
             metadata: {
-                pusrchaseId: newPurchse._id.toString(),
-            }
-        })
+                purchaseId: newPurchase._id.toString(),
+            },
+        });
 
-        res.json({succees: true, session_url: session.url});
+        res.json({ success: true, session_url: session.url });
 
     } catch (error) {
-        res.json({succees: true, message: error.message});
+        res.json({ success: false, message: error.message });
     }
-
-}
+};
 
 // Update user courseprogress
 export const updateUserCourseProgress = async (req, res) => {
@@ -130,7 +128,7 @@ export const updateUserCourseProgress = async (req, res) => {
         res.json({success: true, message: "Progress Updated!"})
 
     } catch (error) {
-        res.json({succees: true, message: error.message})
+        res.json({success: true, message: error.message})
     }
 }
 
@@ -157,7 +155,7 @@ export const userRatings = async (req, res) => {
     const userId = req.auth.userId;
         const  { courseId, rating } = req.body;
 
-        if(!courseId || !userId || !rating < 1 || rating > 5) {
+        if (!courseId || !userId || rating < 1 || rating > 5) {
             return res.json({success: false, message: "Invalid Details"});
         }
 
@@ -177,7 +175,7 @@ export const userRatings = async (req, res) => {
 
         const existingRatingIndex = course.courseRatings.findIndex( rating => rating.userId === userId);
         if(existingRatingIndex > -1) {
-            course.courseRatings(existingRatingIndex).rating = rating;
+            course.courseRatings[existingRatingIndex].rating = rating;
         } else {
             course.courseRatings.push({userId, rating})
         }

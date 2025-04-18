@@ -15,8 +15,8 @@ import course_3_thumbnail from './course_3.png'
 import course_4_thumbnail from './course_4.png'
 import star from './rating_star.svg'
 import star_blank from './star_dull_icon.svg'
-import profile_img_1 from './profile_img_1.png'
-import profile_img_2 from './profile_img_2.png'
+import profile_img_1 from './test1.png'
+import profile_img_2 from './test2.jpg'
 import profile_img_3 from './profile_img_3.png'
 import arrow_icon from './arrow_icon.svg'
 import down_arrow_icon from './down_arrow_icon.svg'
@@ -42,6 +42,7 @@ import profile_img from './profile_img.png'
 import profile_img2 from './profile_img2.png'
 import profile_img3 from './profile_img3.png'
 import lesson_icon from './lesson_icon.svg'
+import whatsapp from './whatsapp.png'
 
 
 export const assets = {
@@ -88,7 +89,8 @@ export const assets = {
     profile_img3,
     play_icon,
     blue_tick_icon,
-    lesson_icon
+    lesson_icon,
+    whatsapp
 }
 
 export const dummyEducatorData = {
@@ -103,25 +105,25 @@ export const dummyEducatorData = {
 
 export const dummyTestimonial = [
     {
-        name: 'Donald Jackman',
+        name: 'Ahsan Riaz',
         role: 'SWE 1 @ Amazon',
         image: assets.profile_img_1,
         rating: 5,
-        feedback: 'I\'ve been using Imagify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.',
+        feedback: 'This platform has significantly improved my technical understanding. The courses are well-structured, easy to follow, and taught by industry professionals. Highly recommended for anyone looking to grow in tech.',
     },
     {
-        name: 'Richard Nelson',
+        name: 'Usman Liaqat',
         role: 'SWE 2 @ Samsung',
         image: assets.profile_img_2,
         rating: 4,
-        feedback: 'I\'ve been using Imagify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.',
+        feedback: 'The LMS provides a seamless learning experience. The real-world projects and clear explanations helped me apply my knowledge effectively at work.',
     },
     {
-        name: 'James Washington',
+        name: 'Ahmed Tariq',
         role: 'SWE 2 @ Google',
         image: assets.profile_img_3,
         rating: 4.5,
-        feedback: 'I\'ve been using Imagify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.',
+        feedback: 'An excellent learning platform for tech enthusiasts. The content is up-to-date, practical, and aligned with current industry standards. It has definitely boosted my skills and confidence.',
     },
 ];
 

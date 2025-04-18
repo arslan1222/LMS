@@ -40,33 +40,33 @@ const CourseDetails = () => {
 
   }
 
-  const enrollCourse = async () => {
+  // const enrollCourse = async () => {
 
-    try {
-      if(!userData) {
-        return toast.warn('Login to Enroll')
-      }
+  //   try {
+  //     if(!userData) {
+  //       return toast.warn('Login to Enroll')
+  //     }
 
-      if(isAlreadyEnrolled) {
-        return toast.warn('Already Enrolled')
-      }
+  //     if(isAlreadyEnrolled) {
+  //       return toast.warn('Already Enrolled')
+  //     }
 
-      const token = await getToken();
+  //     const token = await getToken();
 
-      const {data}= await axios.post(backendUrl + "/api/user/purchase" , {courseId: courseData._id}, {headers: {Authorization: `Bearer ${token}`}})
+  //     const {data}= await axios.post(backendUrl + "/api/user/purchase" , {courseId: courseData._id}, {headers: {Authorization: `Bearer ${token}`}})
 
-      if(data.success) {
-        const {session_url} = data;
-        window.location.replace(session_url);
-      } else {
-        toast.error(data.message);
-      }
+  //     if(data.success) {
+  //       const {session_url} = data;
+  //       window.location.replace(session_url);
+  //     } else {
+  //       toast.error(data.message);
+  //     }
 
-    } catch (error) {
-      toast.error(error.message);
-    }
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //   }
 
-  }
+  // }
 
   const toggleSection = (index) => {
     setOpenSections((prev)=>(
@@ -76,26 +76,13 @@ const CourseDetails = () => {
     ))
   }
 
-  useEffect(() => {
-    console.log('Course ID:', id);
-  }, [id]);
-
-  useEffect(() => {
-    if (courseData) {
-      console.log('Fetched courseData:', courseData);
-    } else {
-      console.log(courseData);
-      
-    }
-  }, [courseData]);
-
   useEffect(()=>{
     fetchCourseData();
   }, []);
 
-  useEffect(() => {
-    if (userData && courseData) {
-      // setIsAlreadyEnrolled(userData.enrolledCourses.includes(courseData._id));
+  useEffect(()=>{
+    if(userData && courseData) {
+      setIsAlreadyEnrolled(userData.enrolledCourses.includes(courseData._id));
     }
   }, [userData, courseData]);
 
@@ -107,7 +94,7 @@ const CourseDetails = () => {
       {/* Left Section */}
       <div className='max-w-xl z-10 text-gray-500'>
         <h1 className='md:text-course-details-heading-large text-course-heading-small font-semibold text-primary2'>{courseData.courseTitle}</h1>
-        <p className='pt-4 md:text-based text-sm' dangerouslySetInnerHTML={{ __html: courseData?.courseDescription?.slice(0, 200) || '' }}></p>
+        <p className='pt-4 md:text-based text-sm' dangerouslySetInnerHTML={{__html: courseData.courseDescription.slice(0, 200)}}></p>
         <div className='flex items-center space-x-2 pt-3 pb-1 text-sm'>
           <p>{calculateRating(courseData)}</p>
           <div className='flex'>
@@ -141,7 +128,7 @@ const CourseDetails = () => {
                     <ul className='list-disc md:pl-10 pl-4 pr-4 text-gray-600 border-t border-gray-300'>
                       {
                         chapter.chapterContent.map((lecture, index)=> (
-                          <li key={lecture._id} className='flex items-start gap-2 py-1'>
+                          <li key={index} className='flex items-start gap-2 py-1'>
                             <img className='w-4 h-4 mt-1' src={assets.play_icon} alt="" />
                             <div className='flex items-center justify-between w-full text-gray-800 text-xs md:text-default'>
                               <p>{lecture.lectureTitle}</p>
@@ -210,7 +197,7 @@ const CourseDetails = () => {
               <p>{calculateLectures(courseData)} Lessions</p>
             </div>
           </div>
-          <button onClick={enrollCourse} className='md:mt-6 mt-4 w-full py-3 rounded bg-primary text-white font-medium'>{isAlreadyEnrolled ? 'Already Enrolled' : 'Enroll Now'}</button>
+          <button className='md:mt-6 mt-4 w-full py-3 rounded bg-primary text-white font-medium'>{isAlreadyEnrolled ? 'Already Enrolled' : 'Enroll Now'}</button>
 
           <div className='pt-6'>
             <p className='md:text-xl text-lg font-medium text-primary2'>What's in the course</p>

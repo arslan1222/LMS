@@ -1,25 +1,59 @@
-import React, { useState } from 'react'
-import { assets } from '../../assets/assets'
-import { useNavigate } from 'react-router-dom'
+import React, { useRef, useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
-const SearchBar = ({data}) => {
+const SearchBar = ({ data }) => {
+  const navigate = useNavigate();
+  const inputRef = useRef(null);
 
-    const navigate = useNavigate();
+  const [input, setInput] = useState(data ? data : '');
+  const [isActive, setIsActive] = useState(false);
 
-    const [input, setInput] = useState(data ? data : '')
-    
-    const onSearchHandler = (event) => {
-        event.preventDefault();
-        navigate('/course-list/' + input);
+  const onSearchHandler = (event) => {
+    event.preventDefault();
+    if (input.trim()) {
+      navigate('/course-list/' + input);
     }
+  };
+
+  const handleClick = () => {
+    setIsActive(!isActive);
+    if (!isActive && inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
 
   return (
-      <form onSubmit={onSearchHandler} className='max-w-xl w-full ms:h-14 h-12 flex items-center bg-white border border-gray-500/20 rounded'>
-        <img className='md:w-auto w-10 px-3' src={assets.search_icon} alt="" />
-        <input onChange={event=> setInput(event.target.value)} value={input} type="text" placeholder='Search for courses' className='w-full h-full outline-none text-gray-500/800' />
-        <button className='bg-blue-600 rounded text-white md:px-10 px-7 md:py-3 py-2 mx-1' type='submit'>Search</button>
-      </form>
-  )
-}
+    <form
+      onSubmit={onSearchHandler}
+      className="max-w-xl w-full h-10 flex items-center bg-white border border-primaryHover rounded relative"
+      onClick={handleClick}
+    >
+      
+      <input
+        ref={inputRef}
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Search for courses"
+        className={`bg-white text-black text-lg h-[40px] px-4 border-0 focus:outline-none rounded-l-full transition-all duration-300 absolute left-0 ${
+          isActive
+            ? 'w-[200px] opacity-100 pointer-events-auto'
+            : 'w-[50px] opacity-0 pointer-events-none'
+        }`}
+      />
+      <button
+        type="submit"
+        onClick={handleClick}
+        className={`flex items-center justify-center whitespace-nowrap text-white text-sm md:text-base rounded bg-primary transition-all duration-300 ease-in-out h-10 px-4 ml-auto ${
+          isActive ? 'ml-auto' : ''
+        }`}
+      >
+        <FaSearch className='mr-2' />
+        Search
+      </button>
+    </form>
+  );
+};
 
-export default SearchBar
+export default SearchBar;

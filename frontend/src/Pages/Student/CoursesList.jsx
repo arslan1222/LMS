@@ -27,9 +27,9 @@ const CoursesList = () => {
       <div className="relative md:px-36 px-8 pt-20 text-left">
         <div className="flex md:flex-row flex-col gap-60 items-start justify-between w-full">
           <div className="">
-          <h1 className="text-4xl font-semibold text-gray-800">Course List</h1>
+          <h1 className="text-xl font-semibold text-gray-800">Course List</h1>
           <p className="text-gray-500">
-            <span className="text-blue-600 cursor-pointer" onClick={()=> navigate('/')}>Home</span> / Course
+            <span className="text-primary2 cursor-pointer" onClick={()=> navigate('/')}>Home</span> / Course
             List
           </p>
         </div>

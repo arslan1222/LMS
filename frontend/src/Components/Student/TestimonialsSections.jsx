@@ -1,39 +1,73 @@
-import React from 'react'
-import { assets, dummyTestimonial } from '../../assets/assets'
 
-const TestimonialsSections = () => {
+import React, { useEffect, useState } from 'react';
+import { assets, dummyTestimonial } from '../../assets/assets';
+
+const TestimonialBox = () => {
+  const [index, setIndex] = useState(0);
+  const [animationClass, setAnimationClass] = useState('animate-grow');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimationClass(''); // Reset animation class
+      setIndex((prev) => (prev + 1) % dummyTestimonial.length);
+    }, 30000);
+
+    const resetAnimationTimeout = setTimeout(() => {
+      setAnimationClass('animate-grow'); 
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(resetAnimationTimeout);
+    };
+  }, []);
+
+  const { name, role, image, feedback, rating } = dummyTestimonial[index];
+
   return (
-    <div className='pb-14 px-8  md:px-0'>
-      <h2 className='text-3xl font-medium text-gray-800'>Testmonials</h2>
-      <p className='md:text-base text-gray-500 mt-3'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi est pariatur officia eos possimus dignissimos enim sapiente labore nobis perferendis.</p>
 
-      <div className='grid grid-cols-auto gap-8 mt-14'>
-        {
-          dummyTestimonial.map((testimonial, index)=>(
-            <div className='text-sm text-left border border-gary-500/30 pb-6 rounded-lg bg-white shadow-[0px_4px_15px_0px] overflow-hidden shadow-black/5' key={index}>
-              <div className='flex items-center gap-4 px-5 py-2 bg-gray-500/10'>
-                <img className='h-12 w-12 rounded-full' src={testimonial.image} alt="" />
-                <div >
-                  <h1 className='text-lg font-medium text-gray-800'>{testimonial.name}</h1>
-                  <p className='text-gray-800/80'>{testimonial.role}</p>
-                </div>
-                
-              </div>
-              <div className='p-5 pb-7'>
-                  <div className='flex gap-0.5'>
-                    {[...Array(5)].map((_, i)=> (
-                      <img className='h-5' key={index} src={i < Math.floor(testimonial.rating) ? assets.star : assets.star_blank} alt="" />
-                    ))}
-                  </div>
-                  <p className='text-gray-500 mt-5'>{testimonial.feedback}</p>
-                </div>
-                <a href="#" className='text-blue-500 underline px-5'>Read more</a>
-            </div>
-          ))
-        }
+    <>
+    <h2 className='text-3xl font-medium text-primary2 '>Testmonials</h2>
+    <div className="bg-primary text-white rounded-xl max-w-3xl px-10 py-12 m-4 relative">
+
+      <div className={`bg-white h-1 w-full origin-left ${animationClass}`}></div>
+
+      <div className="hidden md:block text-white/30 text-2xl absolute top-16 left-10">
+        <i className="fas fa-quote-left"></i>
+      </div>
+      <div className="hidden md:block text-white/30 text-2xl absolute top-16 right-10">
+        <i className="fas fa-quote-right"></i>
+      </div>
+
+      <p className="text-base md:text-lg mt-8 leading-relaxed text-justify">{feedback}</p>
+
+      <div className="flex justify-center items-center mt-8">
+        <img
+          className="w-[75px] h-[75px] rounded-full object-cover"
+          src={image}
+          alt={name}
+        />
+        <div className="ml-4 text-left">
+          <h4 className="text-lg font-semibold m-0">{name}</h4>
+          <p className="mt-1 text-sm font-normal">{role}</p>
+          <div className="flex gap-1 mt-5">
+        {[...Array(5)].map((_, i) => (
+          <img
+            key={i}
+            className="h-5"
+            src={i < Math.floor(rating) ? assets.star : assets.star_blank}
+            alt="star"
+          />
+        ))}
+      </div>
+        </div>
+      
       </div>
     </div>
-  )
-}
+    </>
+    
+  );
+};
 
-export default TestimonialsSections
+export default TestimonialBox;
+

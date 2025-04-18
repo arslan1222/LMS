@@ -24,15 +24,21 @@ const courseSchema = new mongoose.Schema({
   isPublished: { type: Boolean, required: true },
   discount: { type: Number, required: true, min: 0, max: 100 },
   courseContent: [chapterSchema],
+
+  // Changed from ObjectId to String
   courseRatings: [
     {
-      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      userId: { type: String, ref: 'User' }, // custom string ID
       rating: { type: Number, min: 1, max: 5 }
     }
   ],
+
+  // Already a string — good for custom IDs
   educator: { type: String, ref: 'User', required: true },
+
+  // Changed from ObjectId to String
   enrolledStudents: [
-    { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    { type: String, ref: 'User' } // custom string IDs
   ]
 }, { timestamps: true, minimize: false });
 
