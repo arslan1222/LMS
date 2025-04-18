@@ -13,7 +13,7 @@ const Whats = () => {
 
       {/* WhatsApp Icon (group hover target) */}
       <a
-        href="https://wa.me/923001234567"
+        href="https://wa.me/923217077229"
         target="_blank"
         rel="noopener noreferrer"
         className="block w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full shadow-xl bg-green-500 hover:bg-green-600 transition-transform duration-300 ease-in-out hover:scale-105 p-2"
